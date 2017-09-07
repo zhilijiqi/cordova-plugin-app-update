@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-app-update" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>AppUpdate</name>
+	<description>Cordova plugin to perform code updates on the fly</description>
+  <license></license>
+  <keywords>cordova,code,update</keywords>
+
+  <repo>https://github.com/zhilijiqi/cordova-plugin-app-update</repo>
+  <issue>https://github.com/zhilijiqi/cordova-plugin-app-update.git/issues</issue>
+  <engines>
+       <engine name="cordova-android" version=">=4"></engine>
+  </engines>
+
+	<js-module name="AppUpdate" src="www/appupdate.js">
+		<clobbers target="AppUpdate" />
+	</js-module>
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="AppUpdate">
+        		<param name="android-package" value="com.zhilijiqi.cordova.appupdate.AppUpdatePlugin"/>
+        		<param name="onload" value="true"/>
+			</feature>
+		</config-file>
+		<!-- Gradle config -->
+    	<framework custom="true" src="src/android/appupdate.gradle" type="gradleReference"/>
+
+		<config-file parent="/manifest" target="AndroidManifest.xml">
+      		<uses-permission android:name="android.permission.INTERNET"/>
+      		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+      		<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+      		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+		</config-file>
+
+		<config-file parent="/manifest/application" target="AndroidManifest.xml">
+			<service android:name="com.zhilijiqi.cordova.appupdate.service.DownLoadService" android:enabled="true" android:exported="false"/>
+		</config-file>
+
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/config/GetConfigFromUrl.java" target-dir="src/com/zhilijiqi/cordova/appupdate/config/" />
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/config/VersionXml.java" target-dir="src/com/zhilijiqi/cordova/appupdate/config" />
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/service/DownLoadService.java" target-dir="src/com/zhilijiqi/cordova/service/" />
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/task/AppDownloadTask.java" target-dir="src/com/zhilijiqi/cordova/appupdate/task/" />
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/task/CheckVersionTask.java" target-dir="src/com/zhilijiqi/cordova/appupdate/task/" />
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/task/Listener.java" target-dir="src/com/zhilijiqi/cordova/appupdate/task/" />
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/view/AppUpdateRequestDialog.java" target-dir="src/com/zhilijiqi/cordova/appupdate/view/" />
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/AppUpdatePlugin.java" target-dir="src/com/zhilijiqi/cordova/appupdate/" />
+	</platform>
+</plugin>
