@@ -1,0 +1,34 @@
+{
+  "name": "cordova-plugin-app-update",
+  "version": "1.0.0",
+  "description": "Cordova plugin to perform code updates on the fly",
+  "cordova": {
+    "id": "cordova-plugin-app-update",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhilijiqi/cordova-plugin-app-update.git"
+  },
+  "keywords": [
+    "cordova",
+    "code",
+    "update",
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova-android",
+      "version": ">=4"
+    }
+  ],
+  "author": "Feng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhilijiqi/cordova-plugin-app-update/issues"
+  },
+  "homepage": "https://github.com/zhilijiqi/cordova-plugin-app-update#readme"
+}
