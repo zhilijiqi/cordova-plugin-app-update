@@ -37,7 +37,7 @@
 
 		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/config/GetConfigFromUrl.java" target-dir="src/com/zhilijiqi/cordova/appupdate/config/" />
 		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/config/VersionXml.java" target-dir="src/com/zhilijiqi/cordova/appupdate/config" />
-		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/service/DownLoadService.java" target-dir="src/com/zhilijiqi/cordova/service/" />
+		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/service/DownLoadService.java" target-dir="src/com/zhilijiqi/cordova/appupdate/service/" />
 		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/task/AppDownloadTask.java" target-dir="src/com/zhilijiqi/cordova/appupdate/task/" />
 		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/task/CheckVersionTask.java" target-dir="src/com/zhilijiqi/cordova/appupdate/task/" />
 		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/task/Listener.java" target-dir="src/com/zhilijiqi/cordova/appupdate/task/" />
