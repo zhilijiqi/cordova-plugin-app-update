@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.text.TextUtils;
 
 import com.zhilijiqi.cordova.appupdate.service.DownLoadService;
 import com.zhilijiqi.cordova.appupdate.task.CheckVersionTask;
@@ -21,7 +22,7 @@ public class AppUpdatePlugin extends CordovaPlugin {
     private CordovaInterface cordova;
     private Context context;
     private CordovaWebView webView;
-    private String confUrl;
+
 
     private DownLoadService.DownloadBinder downloadBinder;
     private ServiceConnection connection = new ServiceConnection(){
@@ -42,8 +43,7 @@ public class AppUpdatePlugin extends CordovaPlugin {
         this.context = cordova.getActivity();
         this.webView = webView;
 
-        boolean autoUpdate = preferences.getBoolean("AppUpdate",true);
-        confUrl = preferences.getString("AppUpdateUrl","https://www.dfhfax.com/app/android/version.xml");
+        String confUrl = preferences.getString("AppUpdateUrl",null);
         checkAppVersion(confUrl);
         /*Intent intent = new Intent(context, DownLoadService.class);
         context.startService(intent);
@@ -51,6 +51,9 @@ public class AppUpdatePlugin extends CordovaPlugin {
     }
 
     private void checkAppVersion(String confUrl){
+        if(TextUtils.isEmpty(confUrl)){
+            return;
+        }
         CheckVersionTask task = new CheckVersionTask(context);
         task.execute(confUrl);
     }
