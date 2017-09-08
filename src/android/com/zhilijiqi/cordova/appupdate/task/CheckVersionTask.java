@@ -63,9 +63,10 @@ public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
      */
     public Boolean isShowVersionUpdate(final VersionXml versionXml){
         boolean result = false;
+        int versionCode = applicationVersionCode(this.content);
         //是否提醒过
         SharedPref sharedPref = new SharedPref(this.content,IGNORE_UPDATE_NAME);
-        int pVersion = sharedPref.getInt("version",0);
+        int pVersion = sharedPref.getInt("version",versionCode);
 
         if(pVersion < versionXml.getVersion()){
             sharedPref.write(new SharedPref.SharedPrefCallable<Boolean>(){
@@ -77,8 +78,7 @@ public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
             });
             result = true;
         }
-
-        int versionCode = applicationVersionCode(this.content);
+        
         if(versionCode < versionXml.getVersion() && versionXml.getForce()){
             result = true;
         }
