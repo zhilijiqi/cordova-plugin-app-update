@@ -14,7 +14,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 
 /**
- * Created by admin on 2017/9/7.
+ * Created by Feng on 2017/9/7.
  */
 
 public class AppUpdatePlugin extends CordovaPlugin {
@@ -22,6 +22,7 @@ public class AppUpdatePlugin extends CordovaPlugin {
     private CordovaInterface cordova;
     private Context context;
     private CordovaWebView webView;
+    private String conf;
 
 
     private DownLoadService.DownloadBinder downloadBinder;
@@ -43,25 +44,23 @@ public class AppUpdatePlugin extends CordovaPlugin {
         this.context = cordova.getActivity();
         this.webView = webView;
 
-        String confUrl = preferences.getString("AppUpdateUrl",null);
-        checkAppVersion(confUrl);
+        conf = preferences.getString("AppUpdateUrl",null);
+        checkAppVersion(conf);
         /*Intent intent = new Intent(context, DownLoadService.class);
         context.startService(intent);
         context.bindService(intent, connection, Context.BIND_AUTO_CREATE);//绑定服务*/
     }
 
-    private void checkAppVersion(String confUrl){
-        if(TextUtils.isEmpty(confUrl)){
+    private void checkAppVersion(String conf){
+        if(TextUtils.isEmpty(conf)){
             return;
         }
-        CheckVersionTask task = new CheckVersionTask(context);
-        task.execute(confUrl);
+        new CheckVersionTask(context).execute(conf);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        //downloadBinder.startDownload("https://www.dfhfax.com/app/android-dev_20170907.apk");
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.zhilijiqi.cordova.appupdate.task;
 
 /**
- * Created by admin on 2017/9/7.
+ * Created by Feng on 2017/9/7.
  */
 
 public interface Listener {

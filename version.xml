@@ -1,7 +1,7 @@
 <update>
     <version>1</version>
-    <name>版本V2</name>
+    <name>版本v24</name>
     <message>修改闪退等问题</message>
-    <force>1</force>
-    <url>https://www.dfhfax.com/app/android-dev_20170907.apk</url>
+    <force>0</force>
+    <url>https://www.dfhfax.com/app/android-v1.0.0_20170908.apk</url>
 </update>
