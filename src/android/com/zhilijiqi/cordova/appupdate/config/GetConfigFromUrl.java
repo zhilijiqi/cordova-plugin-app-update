@@ -5,7 +5,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by admin on 2017/9/7.
+ * Created by Feng on 2017/9/7.
  */
 
 public class GetConfigFromUrl {

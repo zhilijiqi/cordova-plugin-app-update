@@ -3,7 +3,7 @@ package com.zhilijiqi.cordova.appupdate.task;
 import android.os.AsyncTask;
 
 /**
- * Created by admin on 2017/9/7.
+ * Created by Feng on 2017/9/7.
  */
 
 public class AppDownloadTask extends AsyncTask<String , Integer, Integer> {

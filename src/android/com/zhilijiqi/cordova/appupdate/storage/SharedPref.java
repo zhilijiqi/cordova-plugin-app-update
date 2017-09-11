@@ -1,98 +1,53 @@
-package com.zhilijiqi.cordova.appupdate.task;
+package com.zhilijiqi.cordova.appupdate.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.text.TextUtils;
-
-import com.zhilijiqi.cordova.appupdate.config.GetConfigFromUrl;
-import com.zhilijiqi.cordova.appupdate.config.VersionXml;
-import com.zhilijiqi.cordova.appupdate.storage.SharedPref;
-import com.zhilijiqi.cordova.appupdate.view.AppUpdateRequestDialog;
 
 /**
- * Created by Feng on 2017/9/7.
+ * Created by Feng on 2017/9/8.
  */
 
-public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
+public class SharedPref {
 
-    private Context content;
-    /**是否提示更新*/
-    private static boolean showUpdate = true;
-    private final static String IGNORE_UPDATE_NAME = "ignore_update_name";
+    private Context context;
+    private String name;
+    private SharedPreferences pref;
 
-    public CheckVersionTask(Context content){
-        this.content = content;
-    }
-    @Override
-    protected VersionXml doInBackground(String... params) {
-        /**检查是否提示更新*/
-        if(showUpdate){
-            showUpdate = false;
-        }else{
-            return null;
-        }
-        if(params == null || params.length == 0 || TextUtils.isEmpty(params[0])){
-            return null;
-        }
-        String url = params[0];
-        String confData = GetConfigFromUrl.sendGetRequest(url);
-        VersionXml versionXml = new VersionXml(confData);
-        if(isShowVersionUpdate(versionXml)){
-            return versionXml;
-        }
-        return null;
+    public SharedPref(Context context,String name){
+        this.context = context;
+        this.name = name;
     }
 
-
-    @Override
-    protected void onPostExecute(VersionXml version) {
-        if(version != null){
-            AppUpdateRequestDialog dialog = new AppUpdateRequestDialog(this.content, version);
-            dialog.show();
-        }else{
-
-        }
+    public void write(SharedPrefCallable callable){
+        SharedPreferences.Editor editor = getPref(name).edit();
+        callable.call(editor);
+        editor.apply();
     }
 
-    /**
-     * 是否显示版本更新
-     * @param versionXml
-     * @return
-     */
-    public Boolean isShowVersionUpdate(final VersionXml versionXml){
-        boolean result = false;
-        int versionCode = applicationVersionCode(this.content);
-        //是否提醒过
-        SharedPref sharedPref = new SharedPref(this.content,IGNORE_UPDATE_NAME);
-        int pVersion = sharedPref.getInt("version",versionCode);
-
-        if(pVersion < versionXml.getVersion()){
-            sharedPref.write(new SharedPref.SharedPrefCallable<Boolean>(){
-                @Override
-                public Boolean call(SharedPreferences.Editor editor) {
-                    editor.putInt("version",versionXml.getVersion());
-                    return null;
-                }
-            });
-            result = true;
-        }
-        
-        if(versionCode < versionXml.getVersion() && versionXml.getForce()){
-            result = true;
-        }
-
-        return result;
-    }
-    public int applicationVersionCode(final Context context) {
-        int versionCode = 0;
-        try {
-            versionCode = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionCode;
+    public int getInt(String key,int defValue){
+        return this.getPref(name).getInt(key,defValue);
     }
 
+    public String getString(String key,String defValue){
+        return this.getPref(name).getString(key,defValue);
+    }
+
+    public boolean getBoolean(String key, boolean defValue){
+        return this.getPref(name).getBoolean(key, defValue);
+    }
+
+    public SharedPreferences getPref(String name){
+        return getPref(name,Context.MODE_PRIVATE);
+    }
+
+    public SharedPreferences getPref(String name, int mode){
+        if(pref == null){
+            pref = context.getSharedPreferences(name, mode);
+        }
+        return pref;
+    }
+
+    public interface SharedPrefCallable<T>{
+        public T call(SharedPreferences.Editor editor);
+    }
 }

@@ -39,6 +39,13 @@ public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
         String url = params[0];
         String confData = GetConfigFromUrl.sendGetRequest(url);
         VersionXml versionXml = new VersionXml(confData);
+        int versionCode = applicationVersionCode(this.content);
+        //版本不在支持，一直提醒更新
+        if(versionCode < versionXml.getMinNativeVersion()){
+            showUpdate = true;
+            versionXml.setForce(true);
+            return versionXml;
+        }
         if(isShowVersionUpdate(versionXml)){
             return versionXml;
         }
@@ -78,7 +85,7 @@ public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
             });
             result = true;
         }
-        
+
         if(versionCode < versionXml.getVersion() && versionXml.getForce()){
             result = true;
         }

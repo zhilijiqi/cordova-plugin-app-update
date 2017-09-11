@@ -6,7 +6,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.StringReader;
 
 /**
- * Created by admin on 2017/9/7.
+ * Created by Feng on 2017/9/7.
  */
 
 public class VersionXml {
@@ -18,6 +18,7 @@ public class VersionXml {
     private int version;
     private String url;
     private boolean force;
+    private int minNativeVersion;
 
     public VersionXml(String data){
         this.parseXMLWithPUll(data);
@@ -45,6 +46,9 @@ public class VersionXml {
                         }else if("force".equals(nodeName)){
                             String value = xmlPullParser.nextText();
                             force = FORCE_UPDATE.equals(value);
+                        }else if("min_native_version".equals(nodeName)){
+                            String value = xmlPullParser.nextText();
+                            minNativeVersion = Integer.parseInt(value);
                         }
                         break;
                     }
@@ -62,21 +66,29 @@ public class VersionXml {
     }
 
     public boolean getForce(){
-        return force;
+        return this.force;
     }
+    public void setForce(boolean force){
+        this.force = force;
+    }
+
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getMessage() {
-        return message;
+        return this.message;
     }
 
     public int getVersion() {
-        return version;
+        return this.version;
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
+    }
+
+    public int getMinNativeVersion(){
+        return this.minNativeVersion;
     }
 }

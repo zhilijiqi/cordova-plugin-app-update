@@ -4,4 +4,5 @@
     <message>修改版本更新提醒问题</message>
     <force>0</force>
     <url>https://www.dfhfax.com/app/dfhfax-v1.0.0_20170908.apk</url>
+    <min_native_version>1</min_native_version>
 </update>
