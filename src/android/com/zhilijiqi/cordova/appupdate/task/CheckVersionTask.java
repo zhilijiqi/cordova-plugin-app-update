@@ -69,7 +69,9 @@ public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
     }
 
     public void cancleDownload(){
-        //appUpdatePlugin.stopService();
+        if(!showUpdate) {
+            appUpdatePlugin.stopService();
+        }
     }
     /**
      * 是否显示版本更新
