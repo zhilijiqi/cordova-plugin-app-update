@@ -44,5 +44,6 @@
 		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/task/Listener.java" target-dir="src/com/zhilijiqi/cordova/appupdate/task/" />
 		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/view/AppUpdateRequestDialog.java" target-dir="src/com/zhilijiqi/cordova/appupdate/view/" />
 		<source-file src="src/android/com/zhilijiqi/cordova/appupdate/AppUpdatePlugin.java" target-dir="src/com/zhilijiqi/cordova/appupdate/" />
+		<source-file src="src/android/res/appupdate_strings.xml" target-dir="res/values" />
 	</platform>
 </plugin>

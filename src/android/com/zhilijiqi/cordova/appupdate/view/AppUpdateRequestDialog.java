@@ -4,13 +4,18 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.dfhfax.app.R;
 import com.zhilijiqi.cordova.appupdate.config.VersionXml;
+import com.zhilijiqi.cordova.appupdate.task.CheckVersionTask;
 
 public class AppUpdateRequestDialog {
 
+    private CheckVersionTask task;
     private final Context context;
     private final String title;
     private final String message;
@@ -22,7 +27,8 @@ public class AppUpdateRequestDialog {
      *
      * @param context  application context
      */
-    public AppUpdateRequestDialog(Context context, VersionXml version) {
+    public AppUpdateRequestDialog(CheckVersionTask task, Context context, VersionXml version) {
+        this.task = task;
         this.context = context;
         this.message = version.getMessage();
         this.downloadUrl = version.getUrl();
@@ -39,29 +45,31 @@ public class AppUpdateRequestDialog {
         dialogBuilder.setCancelable(false);
         dialogBuilder.setMessage(message);
         if(TextUtils.isEmpty(title)) {
-            dialogBuilder.setTitle("版本更新");
+            dialogBuilder.setTitle(R.string.version_update_title);
         }else{
             dialogBuilder.setTitle(title);
         }
-        dialogBuilder.setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
+        dialogBuilder.setPositiveButton(R.string.update_now, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent intent = new Intent(Intent.ACTION_VIEW);
+                /*Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(downloadUrl));
-                context.startActivity(intent);
+                context.startActivity(intent);*/
+                task.startDownload(downloadUrl);
             }
         });
         if(cancelable) {
-            dialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            dialogBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-
+                    task.cancleDownload();
                 }
             });
         }
         //dialogBuilder.show();
         AlertDialog dialog = dialogBuilder.create();
+        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.GRAY));
         dialog.show();
     }
 

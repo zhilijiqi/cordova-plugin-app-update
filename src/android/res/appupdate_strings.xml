@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="downloading">正在下载...</string>
+    <string name="download_canceled">取消下载</string>
+    <string name="download_success">下载成功</string>
+    <string name="download_failed">下载失败</string>
+    <string name="download_paused">暂停下载</string>
+    <string name="permission_granted_failed">申请权限失败</string>
+    <string name="service_not_start">服务器未启动</string>
+    <string name="version_update_title">版本更新</string>
+    <string name="update_now">立即更新</string>
+    <string name="cancel">取消</string>
+</resources>

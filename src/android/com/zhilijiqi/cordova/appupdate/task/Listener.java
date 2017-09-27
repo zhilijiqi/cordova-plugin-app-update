@@ -8,7 +8,7 @@ public interface Listener {
 
     void onProgress(int progress);
 
-    void onSuccess();
+    void onSuccess(String filePath);
 
     void onFailed();
 

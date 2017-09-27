@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.zhilijiqi.cordova.appupdate.AppUpdatePlugin;
 import com.zhilijiqi.cordova.appupdate.config.GetConfigFromUrl;
 import com.zhilijiqi.cordova.appupdate.config.VersionXml;
 import com.zhilijiqi.cordova.appupdate.storage.SharedPref;
@@ -17,13 +18,15 @@ import com.zhilijiqi.cordova.appupdate.view.AppUpdateRequestDialog;
 
 public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
 
-    private Context content;
+    private AppUpdatePlugin appUpdatePlugin;
+    private Context context;
     /**是否提示更新*/
     private static boolean showUpdate = true;
     private final static String IGNORE_UPDATE_NAME = "ignore_update_name";
 
-    public CheckVersionTask(Context content){
-        this.content = content;
+    public CheckVersionTask(AppUpdatePlugin appUpdatePlugin){
+        this.appUpdatePlugin = appUpdatePlugin;
+        this.context = appUpdatePlugin.getActivity();
     }
     @Override
     protected VersionXml doInBackground(String... params) {
@@ -39,7 +42,7 @@ public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
         String url = params[0];
         String confData = GetConfigFromUrl.sendGetRequest(url);
         VersionXml versionXml = new VersionXml(confData);
-        int versionCode = applicationVersionCode(this.content);
+        int versionCode = applicationVersionCode(this.context);
         //版本不在支持，一直提醒更新
         if(versionCode < versionXml.getMinNativeVersion()){
             showUpdate = true;
@@ -56,13 +59,18 @@ public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
     @Override
     protected void onPostExecute(VersionXml version) {
         if(version != null){
-            AppUpdateRequestDialog dialog = new AppUpdateRequestDialog(this.content, version);
+            AppUpdateRequestDialog dialog = new AppUpdateRequestDialog(this,context, version);
             dialog.show();
-        }else{
-
         }
     }
 
+    public void startDownload(String url){
+        appUpdatePlugin.startDownload(url);
+    }
+
+    public void cancleDownload(){
+        //appUpdatePlugin.stopService();
+    }
     /**
      * 是否显示版本更新
      * @param versionXml
@@ -70,9 +78,9 @@ public class CheckVersionTask extends AsyncTask<String, Integer, VersionXml>{
      */
     public Boolean isShowVersionUpdate(final VersionXml versionXml){
         boolean result = false;
-        int versionCode = applicationVersionCode(this.content);
+        int versionCode = applicationVersionCode(this.context);
         //是否提醒过
-        SharedPref sharedPref = new SharedPref(this.content,IGNORE_UPDATE_NAME);
+        SharedPref sharedPref = new SharedPref(this.context,IGNORE_UPDATE_NAME);
         int pVersion = sharedPref.getInt("version",versionCode);
 
         if(pVersion < versionXml.getVersion()){
